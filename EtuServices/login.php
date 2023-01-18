@@ -24,18 +24,35 @@
 
     <h1>Connexion à EtuServices</h1>
     <form action="/login" method="post">
-        <label for="username">eMail:</label>
-        <input type="text" id="username" name="username">
+        <label for="email">eMail:</label>
+        <input type="text" id="email" name="email">
         <br>
-        <label for="password">Mot de passe:</label>
-        <input type="password" id="password" name="password">
+        <label for="psw">Mot de passe:</label>
+        <input type="password" id="psw" name="psw">
         <br>
+
         <?php
-        /*Mettre le script*/
+        if (isset($_GET["contenu"])) {
+            if ($_GET["contenu"] == 1) {
+                $sql = "SELECT email, mdp FROM Utilisateurs";
+                $result = mysqli_query($conn, $sql);
+            }
+        }
+
+        $result = $mysqli->query("SELECT email, mdp FROM Utilisateurs WHERE email = ?");
+        if ($result->num_rows == 0) {
+            if ($row = $result->fetch_assoc()) {
+                $lec_email = $row['email'];
+                $lec_mdp = $row['mdp'];
+                echo "<button>
+                <a href='accueil.php'>Connexion</a>
+            </button>";
+            }
+        } else {
+            echo "0 results";
+        }
         ?>
-        <button>
-            <a href="accueil.php">Connexion</a>
-        </button>
+
     </form>
 </body>
 
